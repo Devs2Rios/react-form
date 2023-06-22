@@ -5,7 +5,6 @@ const BasicForm = () => {
     lastNameInputRef = useRef<HTMLInputElement>(null),
     nameInputChangeHandler: ChangeEventHandler<HTMLInputElement> = (event: ChangeEvent<HTMLInputElement>) => {
       setEnteredName(event.target.value);
-
     },
     submitHandler: FormEventHandler<HTMLFormElement> = (event: FormEvent) => {
       event.preventDefault();
