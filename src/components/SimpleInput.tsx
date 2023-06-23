@@ -1,16 +1,8 @@
 import { FormEventHandler, FormEvent } from "react";
 import validators from "utils/validators";
-import useInput, { InputHook } from "hooks/use-input";
+import useInput from "hooks/use-input";
 import TextInput from "./TextInput";
-
-interface Input {
-  id: string;
-  label: string;
-  type: 'email' | 'text' | 'password';
-  min?: number;
-  max?: number;
-  hook: InputHook;
-}
+import { Input, InputHook } from "utils/types";
 
 const SimpleInput = (): JSX.Element => {
 

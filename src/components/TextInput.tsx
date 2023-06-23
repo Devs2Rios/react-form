@@ -1,18 +1,6 @@
-import { memo, ChangeEvent, FocusEvent } from 'react';
+import { memo } from 'react';
 import clsx from "clsx";
-
-interface Props {
-    label: string;
-    id: string;
-    inputIsValid: boolean;
-    type: 'text' | 'email' | 'password';
-    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-    onBlur: (e: FocusEvent<HTMLInputElement>) => void;
-    value: string;
-    minLength?: number;
-    maxLength?: number;
-    errorMessage: string | null;
-}
+import { TextInputProps } from 'utils/types';
 
 function TextInput({
     label,
@@ -25,7 +13,7 @@ function TextInput({
     minLength,
     maxLength,
     errorMessage,
-}: Props) {
+}: TextInputProps) {
     return (
         <div className={clsx('form-control', {
             invalid: !inputIsValid,

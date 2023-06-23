@@ -1,33 +1,58 @@
-import { useRef, useState, ChangeEvent, ChangeEventHandler, FormEventHandler, FormEvent } from "react";
+import { FormEventHandler, FormEvent } from "react";
+import useInput from "hooks/use-input";
+import validators from "utils/validators";
+import TextInput from "./TextInput";
+import { Input } from "utils/types";
 
 const BasicForm = () => {
-  const [enteredName, setEnteredName] = useState<string>(""),
-    lastNameInputRef = useRef<HTMLInputElement>(null),
-    nameInputChangeHandler: ChangeEventHandler<HTMLInputElement> = (event: ChangeEvent<HTMLInputElement>) => {
-      setEnteredName(event.target.value);
-    },
-    submitHandler: FormEventHandler<HTMLFormElement> = (event: FormEvent) => {
-      event.preventDefault();
+  const firstNameInput = useInput('first-name', validators.name),
+    lastNameInput = useInput('last-name', validators.name),
+    emailInput = useInput('email', validators.email),
+    inputs: Input[] = [
+      { id: 'first-name', label: 'Your First Name', type: 'text', min: 3, max: 255, hook: firstNameInput },
+      { id: 'last-name', label: 'Your Last Name', type: 'text', min: 3, max: 255, hook: lastNameInput },
+      { id: 'email', label: 'Your Email', type: 'email', min: 8, max: 255, hook: emailInput }
+    ],
+    formIsValid = (): boolean => inputs.every(((input: Input) => input.hook.isValid()));
+
+  const submitHandler: FormEventHandler<HTMLFormElement> = (event: FormEvent) => {
+    event.preventDefault();
+    if (formIsValid()) {
+      for (const input of inputs) {
+        const { value, setIsTouched, setInputValue } = input.hook;
+        setInputValue('');
+        setIsTouched(false);
+        console.log(value);
+      }
     };
+  };
 
   return (
     <form onSubmit={submitHandler}>
-      <div className='control-group'>
-        <div className='form-control'>
-          <label htmlFor='name'>First Name</label>
-          <input type='text' id='name' onChange={nameInputChangeHandler} value={enteredName} />
-        </div>
-        <div className='form-control'>
-          <label htmlFor='name'>Last Name</label>
-          <input type='text' id='name' ref={lastNameInputRef} />
-        </div>
-      </div>
-      <div className='form-control'>
-        <label htmlFor='name'>E-Mail Address</label>
-        <input type='text' id='name' />
-      </div>
-      <div className='form-actions'>
-        <button>Submit</button>
+      {
+        inputs.map((input: Input, i: number) => {
+          const {
+            id, label, type, min, max,
+            hook: { value, touched, error, isValid, handleChange, handleBlur }
+          } = input;
+          return (
+            <TextInput
+              key={`input-${id}-${i}`}
+              label={label}
+              id={id}
+              inputIsValid={isValid() || !touched}
+              type={type}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={value}
+              minLength={min}
+              maxLength={max}
+              errorMessage={error}
+            />)
+        })
+      }
+      <div className="form-actions">
+        <button disabled={!formIsValid()}>Submit</button>
       </div>
     </form>
   );

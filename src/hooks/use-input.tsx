@@ -1,25 +1,5 @@
-import {
-    useState,
-    ChangeEventHandler,
-    ChangeEvent,
-    FocusEventHandler,
-    FocusEvent,
-    Dispatch,
-    SetStateAction
-} from "react";
-
-export type InputHook = {
-    value: string,
-    touched: boolean,
-    error: string | null,
-    isValid: () => boolean,
-    handleChange: ChangeEventHandler<HTMLInputElement>,
-    handleBlur: FocusEventHandler<HTMLInputElement>,
-    setInputValue: Dispatch<SetStateAction<string>>,
-    setIsTouched: Dispatch<SetStateAction<boolean>>,
-    setErrorMessage: Dispatch<SetStateAction<string | null>>,
-    defineError: () => string | null
-}
+import { useState, ChangeEventHandler, ChangeEvent, FocusEventHandler, FocusEvent } from "react";
+import { InputHook } from "utils/types";
 
 export default function useInput(inputName: string, txtValidator: RegExp): InputHook {
     const [inputValue, setInputValue] = useState<string>(""),
@@ -27,9 +7,11 @@ export default function useInput(inputName: string, txtValidator: RegExp): Input
         [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const inputIsValid = (): boolean => (inputValue.trim() !== '' && txtValidator.test(inputValue)),
+        inputNameToReadable = (): string =>
+            inputName.split('-').map((word: string) => `${word[0].toUpperCase()}${word.slice(1)}`).join(' '),
         defineError = (): string | null => inputIsValid()
             ? null
-            : `${inputName[0].toUpperCase()}${inputName.slice(1)} is invalid`,
+            : `${inputNameToReadable()} is invalid`,
         handleInputChange: ChangeEventHandler<HTMLInputElement> = (event: ChangeEvent<HTMLInputElement>) => {
             setIsTouched(false);
             setInputValue(event.target?.value);
