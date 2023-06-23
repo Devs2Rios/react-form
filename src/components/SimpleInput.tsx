@@ -18,9 +18,8 @@ const SimpleInput = (): JSX.Element => {
     event.preventDefault();
     if (formIsValid()) {
       for (const input of inputs) {
-        const { value, setIsTouched, setInputValue } = input.hook;
-        setInputValue('');
-        setIsTouched(false);
+        const { value, handleReset } = input.hook;
+        handleReset();
         console.log(value);
       }
     };

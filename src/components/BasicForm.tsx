@@ -11,7 +11,7 @@ const BasicForm = (): JSX.Element => {
     inputs: Input[] = [
       { id: 'first-name', label: 'Your First Name', type: 'text', min: 3, max: 255, hook: firstNameInput },
       { id: 'last-name', label: 'Your Last Name', type: 'text', min: 3, max: 255, hook: lastNameInput },
-      { id: 'email', label: 'Your Email', type: 'email', min: 8, max: 255, hook: emailInput }
+      { id: 'email', label: 'Email Address', type: 'email', min: 8, max: 255, hook: emailInput }
     ],
     formIsValid = (): boolean => inputs.every(((input: Input) => input.hook.isValid()));
 
@@ -19,9 +19,8 @@ const BasicForm = (): JSX.Element => {
     event.preventDefault();
     if (formIsValid()) {
       for (const input of inputs) {
-        const { value, setIsTouched, setInputValue } = input.hook;
-        setInputValue('');
-        setIsTouched(false);
+        const { value, handleReset } = input.hook;
+        handleReset();
         console.log(value);
       }
     };

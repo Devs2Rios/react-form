@@ -3,8 +3,6 @@ import {
     FocusEvent,
     ChangeEventHandler,
     FocusEventHandler,
-    Dispatch,
-    SetStateAction
 } from "react";
 
 export type InputHook = {
@@ -14,9 +12,7 @@ export type InputHook = {
     isValid: () => boolean,
     handleChange: ChangeEventHandler<HTMLInputElement>,
     handleBlur: FocusEventHandler<HTMLInputElement>,
-    setInputValue: Dispatch<SetStateAction<string>>,
-    setIsTouched: Dispatch<SetStateAction<boolean>>,
-    setErrorMessage: Dispatch<SetStateAction<string | null>>,
+    handleReset: () => void,
     defineError: () => string | null
 }
 
