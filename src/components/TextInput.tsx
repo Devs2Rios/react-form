@@ -4,7 +4,7 @@ import clsx from "clsx";
 interface Props {
     label: string;
     id: string;
-    inputIsInvalid: boolean;
+    inputIsValid: boolean;
     type: 'text' | 'email' | 'password';
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
     onBlur: (e: FocusEvent<HTMLInputElement>) => void;
@@ -16,7 +16,7 @@ interface Props {
 
 function TextInput({
     label,
-    inputIsInvalid,
+    inputIsValid,
     type,
     id,
     onChange,
@@ -28,7 +28,7 @@ function TextInput({
 }: Props) {
     return (
         <div className={clsx('form-control', {
-            invalid: inputIsInvalid,
+            invalid: !inputIsValid,
         })}>
             <label htmlFor={id}>{label}</label>
             <input

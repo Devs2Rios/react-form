@@ -1,8 +1,11 @@
-export const nameInputValidator = (name: string) => {
-    // eslint-disable-next-line no-useless-escape
-    return /^\p{L}[\p{L}\.\s]*$/u.test(name);
+interface Validators {
+    name: RegExp;
+    email: RegExp;
 }
-export const emailInputValidator = (email: string) => {
-    const regex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-    return regex.test(email);
+
+const validators: Validators = {
+    name: /^\p{L}[\p{L}\.\s]*$/u,
+    email: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/
 }
+
+export default validators;
