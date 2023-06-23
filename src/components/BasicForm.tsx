@@ -2,12 +2,12 @@ import { FormEventHandler, FormEvent } from "react";
 import useInput from "hooks/use-input";
 import validators from "utils/validators";
 import TextInput from "./TextInput";
-import { Input } from "utils/types";
+import { Input, InputHook } from "utils/types";
 
-const BasicForm = () => {
-  const firstNameInput = useInput('first-name', validators.name),
-    lastNameInput = useInput('last-name', validators.name),
-    emailInput = useInput('email', validators.email),
+const BasicForm = (): JSX.Element => {
+  const firstNameInput: InputHook = useInput('first-name', validators.name),
+    lastNameInput: InputHook = useInput('last-name', validators.name),
+    emailInput: InputHook = useInput('email', validators.email),
     inputs: Input[] = [
       { id: 'first-name', label: 'Your First Name', type: 'text', min: 3, max: 255, hook: firstNameInput },
       { id: 'last-name', label: 'Your Last Name', type: 'text', min: 3, max: 255, hook: lastNameInput },
